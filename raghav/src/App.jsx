@@ -5,7 +5,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/premium-traded")
+    fetch("https://raghav-1jgg.onrender.com/api/premium-traded")
       .then((res) => res.json())
       .then((json) => {
         setData(json);
