@@ -20,4 +20,4 @@ def premium_traded():
     return jsonify(ab.to_dict(orient='records'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=4000)
