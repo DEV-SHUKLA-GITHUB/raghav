@@ -13,13 +13,13 @@ CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
 # Set up logging for diagnostics
 logging.basicConfig(level=logging.INFO)
 
-@app.after_request
-def after_request(response):
-    # Ensure CORS headers are present on all responses
-    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5173')
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-    return response
+# @app.after_request
+# def after_request(response):
+#     # Ensure CORS headers are present on all responses
+#     response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5173')
+#     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+#     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+#     return response
 
 @app.route('/')
 def index():
@@ -57,6 +57,9 @@ def premium_traded():
         app.logger.error(f"Error in /api/premium-traded: {e}", exc_info=True)
         return jsonify({"error": str(e)}), 500
 
+# if __name__ == '__main__':
+#     port = int(os.environ.get("PORT", 10000))
+#     app.run(host="0.0.0.0", port=port)
+
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(debug=True)
