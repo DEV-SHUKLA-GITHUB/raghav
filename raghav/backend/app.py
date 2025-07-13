@@ -5,11 +5,20 @@ from flask_cors import CORS
 import logging
 
 app = Flask(__name__)
-# CORS(app)
-CORS(app, origins=["http://localhost:5173", "https://raghav-1-68tm.onrender.com"])
 
-# Set up logging for better diagnostics
+# Enable CORS for your local frontend
+CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
+
+# Set up logging for diagnostics
 logging.basicConfig(level=logging.INFO)
+
+@app.after_request
+def after_request(response):
+    # Ensure CORS headers are present on all responses
+    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5173')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
 
 @app.route('/')
 def index():

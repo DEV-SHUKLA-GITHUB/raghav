@@ -9,7 +9,8 @@ function App() {
 
   const fetchData = (selectedDate) => {
     setLoading(true);
-    fetch(`http://127.0.0.1:4000/api/premium-traded?date=${selectedDate}`)
+    // fetch(`http://127.0.0.1:4000/api/premium-traded?date=${selectedDate}`)
+    fetch(`http://raghav-1-68tm.onrender.com/api/premium-traded?date=${selectedDate}`)
       .then((res) => res.json())
       .then((json) => {
         setData(json);
