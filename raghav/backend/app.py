@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from nselib import derivatives
 import pandas as pd
 from flask_cors import CORS
@@ -8,7 +8,15 @@ CORS(app)
 
 @app.route('/api/premium-traded')
 def premium_traded():
-    data = derivatives.fno_bhav_copy("07-07-2025")
+    date = request.args.get('date', '07-07-2025')
+    # Convert date from yyyy-mm-dd to dd-mm-yyyy
+    try:
+        day, month, year = date.split('-')[2], date.split('-')[1], date.split('-')[0]
+        formatted_date = f"{day}-{month}-{year}"
+    except Exception:
+        formatted_date = '07-07-2025'
+
+    data = derivatives.fno_bhav_copy(formatted_date)
     filtered_data = data[data['OptnTp'].isin(['PE', 'CE'])]
     filtered_data.loc[:, 'Premium Traded'] = (
         filtered_data['TtlTradgVol'] * filtered_data['SttlmPric'] * filtered_data['NewBrdLotQty']
